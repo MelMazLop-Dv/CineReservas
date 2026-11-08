@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CineReservas | Sistema de Reservaciones</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+
+<aside class="sidebar">
+    <div class="logo">
+        <span class="logo-icon">🎬</span>
+        <h2>CineReservas</h2>
+    </div>
+
+    <nav class="menu">
+        <a href="#inicio">🏠 Inicio</a>
+        <a href="#funciones">🎥 Funciones</a>
+        <a href="#reservas">🎟️ Reservas</a>
+    </nav>
+
+    <div class="sidebar-footer">
+        Sistema de Gestión de Cine
+    </div>
+</aside>
+
+
+<main class="main-content">
+
+    <header class="topbar">
+        <div>
+            <h1>Panel de Administración</h1>
+            <p>Gestiona las funciones y reservas de tu cine.</p>
+        </div>
+
+        <span class="status-badge">● Sistema CineReservas</span>
+    </header>
+
+
+    <section id="inicio" class="section">
+
+        <h2>Resumen general</h2>
+
+        <div class="stats-grid">
+
+            <article class="stat-card">
+                <div class="stat-icon">🎥</div>
+                <p>Total de funciones</p>
+                <h3 id="totalFunciones">0</h3>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">🎟️</div>
+                <p>Reservas confirmadas</p>
+                <h3 id="totalReservas">0</h3>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">💺</div>
+                <p>Asientos disponibles</p>
+                <h3 id="totalAsientos">0</h3>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section id="funciones" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Funciones de cine</h2>
+                <p>Consulta y administra la cartelera.</p>
+            </div>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    id="btnNuevaFuncion">
+                + Nueva función
+            </button>
+        </div>
+
+        <div class="card">
+
+            <div class="filters">
+                <label for="filtroFecha">
+                    Filtrar por fecha:
+                </label>
+
+                <input type="date" id="filtroFecha">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        id="btnFiltrarFunciones">
+                    Buscar
+                </button>
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        id="btnTodasFunciones">
+                    Mostrar todas
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Película</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Sala</th>
+                        <th>Precio</th>
+                        <th>Disponibles</th>
+                        <th>Ocupación</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="tablaFunciones">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <div class="card form-card" id="panelFuncion" hidden>
+
+            <h3 id="tituloFormularioFuncion">
+                Registrar nueva función
+            </h3>
+
+            <form id="formFuncion">
+
+                <input type="hidden" id="funcionId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="pelicula">Película</label>
+                        <input type="text"
+                               id="pelicula"
+                               maxlength="150"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date"
+                               id="fecha"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input type="time"
+                               id="hora"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sala">Sala</label>
+                        <input type="text"
+                               id="sala"
+                               maxlength="50"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="capacidad">Capacidad</label>
+                        <input type="number"
+                               id="capacidad"
+                               min="1"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precioEntrada">
+                            Precio de entrada (Q)
+                        </label>
+                        <input type="number"
+                               id="precioEntrada"
+                               min="0.01"
+                               step="0.01"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Guardar función
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            id="btnCancelarFuncion">
+                        Cancelar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </section>
+
+
+    <section id="reservas" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Reservas</h2>
+                <p>Administra las entradas de los clientes.</p>
+            </div>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    id="btnNuevaReserva">
+                + Nueva reserva
+            </button>
+        </div>
+
+        <div class="card">
+
+            <div class="filters">
+
+                <label for="filtroEstado">
+                    Estado:
+                </label>
+
+                <select id="filtroEstado">
+                    <option value="">Todas</option>
+                    <option value="CONFIRMADA">
+                        Confirmadas
+                    </option>
+                    <option value="CANCELADA">
+                        Canceladas
+                    </option>
+                </select>
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        id="btnFiltrarReservas">
+                    Filtrar
+                </button>
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        id="btnTodasReservas">
+                    Mostrar todas
+                </button>
+
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Película</th>
+                        <th>Entradas</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="tablaReservas">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <div class="card form-card" id="panelReserva" hidden>
+
+            <h3 id="tituloFormularioReserva">
+                Registrar nueva reserva
+            </h3>
+
+            <form id="formReserva">
+
+                <input type="hidden" id="reservaId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="reservaFuncion">
+                            Función de cine
+                        </label>
+
+                        <select id="reservaFuncion" required>
+                            <option value="">
+                                Seleccione una función
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombreCliente">
+                            Nombre del cliente
+                        </label>
+
+                        <input type="text"
+                               id="nombreCliente"
+                               maxlength="100"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cantidadEntradas">
+                            Cantidad de entradas
+                        </label>
+
+                        <input type="number"
+                               id="cantidadEntradas"
+                               min="1"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Guardar reserva
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            id="btnCancelarFormularioReserva">
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        CineReservas © 2026 |
+        Proyecto de Programación II
+    </footer>
+
+</main>
+
+
+<div id="notificacion"
+     class="notificacion"
+     role="status"
+     aria-live="polite"
+     hidden>
+</div>
+
+</body>
+</html>
